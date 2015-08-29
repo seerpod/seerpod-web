@@ -1,7 +1,7 @@
-seerpod
-=======
+seerpod-web
+===========
 
-Machine learning based octo
+Web interface for users
 
 ## Dependecies
 
@@ -38,15 +38,19 @@ supervisord -n -c supervisord/suoervisord.conf
 #### Dependency
 <pre>
 sudo apt-get update
-sudo apt-get -y install got python-setuptools git python-dev build-essential mysql-server python-mysqldb
-sudo easy_install tornado
-sudo easy_install torndb
-git clone https://github.com/dan-boa/seerpod.git
-#Create database riyusaki
-#Create database riyusaki_warm
+sudo apt-get -y install git 
+git clone https://github.com/dan-boa/riyu-fetch.git
+sudo apt-get -y install python-pip python-dev build-essential memcached python-memcache
+sudo pip install tornado
+sudo pip install torndb
+sudo apt-get -y install python-mysqldb
+sudo pip install simplejson
+sudo apt-get -y install mysql-server
+sudo pip install tornado-redis
+#Create database sp
 </pre>
 
 <pre>
-cd /home/ubuntu/seerpod
+cd /home/ubuntu/seerpod-web
 sudo python main.py --port=80
 </pre>
