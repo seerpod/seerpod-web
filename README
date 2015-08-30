@@ -1,11 +1,7 @@
-Running the Tornado Blog example app
+Running the Seerpod 
 ====================================
-This demo is a simple blogging engine that uses MySQL to store posts and
-Google Accounts for author authentication. Since it depends on MySQL, you
-need to set up MySQL and the database schema for the demo to run.
+It depends on MySQL, you need to set up MySQL and the database schema for the demo to run.
 
-If you have `docker` and `docker-compose` installed, the demo and all
-its prerequisites can be installed with `docker-compose up`.
 
 1. Install prerequisites and build tornado
 
@@ -35,11 +31,14 @@ its prerequisites can be installed with `docker-compose up`.
 
    Allow the "blog" user to connect with the password "blog":
    mysql> GRANT ALL PRIVILEGES ON seerpod.* TO 'seerpod'@'localhost' IDENTIFIED BY 'seerpod';
+  
+   Set this export DYLD_LIBRARY_PATH=/usr/local/mysql/lib/
+
 
 4. Create the tables in your new database.
 
    You can use the provided schema.sql file by running this command:
-   mysql --user=blog --password=blog --database=blog < schema.sql
+   mysql --user=seerpod --password=Datadr1ven --database=seerpod < schema.sql
 
    You can run the above command again later if you want to delete the
    contents of the blog and start over after testing.
@@ -49,15 +48,5 @@ its prerequisites can be installed with `docker-compose up`.
    With the default user, password, and database you can just run:
    ./seerpod.py
  
+   visit the site at localhost:8888
 
-6. Visit site
-
-   Open http://localhost:8888/ in your web browser. You will be redirected to
-   a Google account sign-in page because the blog uses Google accounts for
-   authentication.
-
-   Currently the first user to connect will automatically be given the
-   ability to create and edit posts.
-
-   Once you've created one blog post, subsequent users will not be
-   prompted to sign in.
