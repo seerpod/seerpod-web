@@ -54,3 +54,7 @@ sudo pip install tornado-redis
 cd /home/ubuntu/seerpod-web
 sudo python main.py --port=80
 </pre>
+
+Update
+-----
+curl -X GET 127.0.0.1/update/1/1

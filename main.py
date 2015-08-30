@@ -49,8 +49,9 @@ server_settings = {
 def main():
     tornado.options.parse_command_line()
     application = tornado.web.Application([
-            (r"/web",      WebHandler),
-            (r"/web-next", WebNextHandler),
+            (r"/web",                  WebHandler),
+            (r"/update/(.*)/(.*)",     UpdateHandler),
+            (r"/web-next",             WebNextHandler),
             
     ], **settings)
 

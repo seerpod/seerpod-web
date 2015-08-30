@@ -5,12 +5,19 @@ import tornado.websocket
 import tornado.ioloop
 import tornado.gen
 import simplejson
+import pdb
 
 from util import *
+
+class UpdateHandler(tornado.web.RequestHandler):
+    def get(self, resto, cnt):
+        r.publish(resto, str(cnt))
 
 class WebHandler(tornado.web.RequestHandler):
     def get(self):
         message = sample_data()
+        for resto in get_resto():
+            r.hset('users_%d' % resto['rid'], 'user', 1)
         self.render("web.html", message=message)
 
 class WebNextHandler(tornado.websocket.WebSocketHandler):

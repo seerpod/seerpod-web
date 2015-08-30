@@ -25,9 +25,10 @@
    data = eval(data);
    for (var i = 0; i < data.length; i++) {
      var id = data[i]["id"];
-     var cnt = data[i]["cnt"];
+     var cnt = parseInt(data[i]["cnt"]);
      var name = data[i]["name"];
-     $("#"+id).html(cnt);
+     var curr_val = parseInt($("#"+id).text());
+     $("#"+id).html(curr_val + cnt);
    }
   }
 
@@ -38,6 +39,7 @@
         create_content(data);
         return ;
      }
+     console.log(message);
      append_content(message);
    }
         		

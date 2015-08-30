@@ -9,11 +9,11 @@ cnt = 1
 def sample_data():
     global cnt
     data = []
-    i = random.randint(1, 5)
+    num_resto = len(get_resto())
+    i = random.randint(1, num_resto)
     cnt = cnt + 1
     data.append({
                  'id': i, 
-                 'name': randomword(20),
                  'cnt' : cnt
                 })
     return data
