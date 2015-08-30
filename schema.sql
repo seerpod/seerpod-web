@@ -1,7 +1,7 @@
 
 -- To create the database:
---   CREATE DATABASE blog;
---   GRANT ALL PRIVILEGES ON seerpod.* TO 'blog'@'localhost' IDENTIFIED BY 'seerpod';
+--   CREATE DATABASE seerpod;
+--   GRANT ALL PRIVILEGES ON seerpod.* TO 'seerpod'@'localhost' IDENTIFIED BY 'seerpod';
 --
 -- To reload the tables:
 --   mysql --user=seerpod --password=Datadr1ven --database=seerpod < schema.sql
