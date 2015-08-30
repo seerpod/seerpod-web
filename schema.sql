@@ -38,8 +38,15 @@ CREATE TABLE restaurants (
 
 
 
--- Bootstrap for dummy data
+-- Bootstrap for restaurant data
 
 INSERT INTO restaurants VALUES (1,'Chaat Cafe', 'indian-chaat-cafe.jpg', 37.121, -122.343, '320 3rd St, San Francisco', 94133, 'San Francisco', 'CA', 300);
 INSERT INTO restaurants VALUES (2,'Curry Up Now', 'curry-up-truck.jpg', 37.121, -122.343, '659 Valencia St, San Francisco, CA 94110', 94110, 'San Francisco', 'CA', 160);
 INSERT INTO restaurants VALUES (3,'BASIL THAI RESTAURANT AND BAR', 'basil.jpg', 37.121, -122.343, '1175 Folsom St, San Francisco, CA 94103', 94103, 'San Francisco', 'CA', 80);
+
+
+--Bootstrap for restaurant count
+
+INSERT INTO restaurant_count VALUES (1, '2015-08-08 15:00:10', 234)
+INSERT INTO restaurant_count VALUES (2, '2015-08-08 15:00:10', 121)
+INSERT INTO restaurant_count VALUES (3, '2015-08-08 15:00:10', 31)

@@ -16,10 +16,10 @@ import count_encoder
 from tornado.options import define, options
 
 define("port", default=8888, help="run on the given port", type=int)
-define("mysql_host", default="localhost:3306", help="blog database host")
-define("mysql_database", default="seerpod", help="blog database name")
-define("mysql_user", default="seerpod", help="blog database user")
-define("mysql_password", default="Datadr1ven", help="blog database password")
+define("mysql_host", default="localhost:3306", help="seerpod database host")
+define("mysql_database", default="seerpod", help="seerpod database name")
+define("mysql_user", default="seerpod", help="seerpod database user")
+define("mysql_password", default="Datadr1ven", help="seerpod database password")
 
 
 class Application(tornado.web.Application):
