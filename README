@@ -19,9 +19,9 @@ It depends on MySQL, you need to set up MySQL and the database schema for the de
 
    Install the packages MySQL-python, torndb, and markdown (e.g. using pip or
    easy_install). Note that these packages currently only work on
-   Python 2. Tornado supports Python 3, but this blog demo does not.
+   Python 2. Tornado supports Python 3, but this seerpod demo does not.
 
-3. Connect to MySQL and create a database and user for the blog.
+3. Connect to MySQL and create a database and user for the seerpod.
 
    Connect to MySQL as a user that can create databases and users:
    mysql -u root
@@ -29,7 +29,7 @@ It depends on MySQL, you need to set up MySQL and the database schema for the de
    Create a database named "seerpod":
    mysql> CREATE DATABASE seerpod;
 
-   Allow the "blog" user to connect with the password "blog":
+   Allow the "seerpod" user to connect with the password "seerpod":
    mysql> GRANT ALL PRIVILEGES ON seerpod.* TO 'seerpod'@'localhost' IDENTIFIED BY 'seerpod';
   
    Set this export DYLD_LIBRARY_PATH=/usr/local/mysql/lib/
@@ -41,7 +41,7 @@ It depends on MySQL, you need to set up MySQL and the database schema for the de
    mysql --user=seerpod --password=Datadr1ven --database=seerpod < schema.sql
 
    You can run the above command again later if you want to delete the
-   contents of the blog and start over after testing.
+   contents of the seerpod and start over after testing.
 
 5. Run the seerpod example
 
