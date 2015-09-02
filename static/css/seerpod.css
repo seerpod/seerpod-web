@@ -93,7 +93,7 @@ hr.star-primary:after {
 header {
     text-align: center;
     color: #fff;
-    background-image: url('img/restaurant-crowd-large-trans-green.png');
+    background-image: url('/static/img/restaurant-crowd-large-trans-green.png');
     /*opacity: 0.6; 
     filter: alpha(opacity=20);*/
     /*background-color: #EFA555;*/
@@ -216,7 +216,7 @@ header .intro-text .skills {
 }
 
 #home-address-search.search-icon {
-    background-image: url('img/search-icon.png');
+    background-image: url('/static/img/search-icon.png');
     background-color: Transparent;
     background-repeat:no-repeat;
     border: none;
@@ -247,7 +247,7 @@ header .intro-text .skills {
 }
 
 #home-address-location.location-icon {
-    background-image: url('img/location-arrow-icon.png');
+    background-image: url('/static/img/location-arrow-icon.png');
     background-size: 22px;
     width: 22px;
     height: 22px;
@@ -255,7 +255,7 @@ header .intro-text .skills {
 }
 
 #home-address-location.location-icon:hover,#home-address-location.location-icon-active {
-    background-image: url('img/location-arrow-icon-red.png');
+    background-image: url('/static/img/location-arrow-icon-red.png');
     opacity: 1;
 }
 
@@ -462,7 +462,7 @@ section.success a.active {
   font-size: 20px;
   font-weight: 300;
   padding-left: 30px;
-  background: url('img/bullet.png') no-repeat left center;
+  background: url('/static/img/bullet.png') no-repeat left center;
 }
 .promo .overview .download-area {
   display: inline-block;
@@ -496,10 +496,10 @@ section.success a.active {
   background-color: #574D22;
 }
 .promo .overview .btn-group li.ios-btn a {
-  background-image: url('img/btn-app-store.png');
+  background-image: url('/static/img/btn-app-store.png');
 }
 .promo .overview .btn-group li.android-btn a {
-  background-image: url('img/btn-google-play.png');
+  background-image: url('/static/img/btn-google-play.png');
 }
 .promo .overview .note {
   position: relative;
@@ -513,7 +513,7 @@ section.success a.active {
   left: 60px;
   bottom: 15px;
   display: inline-block;
-  background: url('img/up-arrow-left.png') no-repeat left top;
+  background: url('/static/img/up-arrow-left.png') no-repeat left top;
   -webkit-background-size: contain;
   -moz-background-size: contain;
   -o-background-size: contain;
@@ -529,7 +529,7 @@ section.success a.active {
   right: 60px;
   bottom: 15px;
   display: inline-block;
-  background: url('img/up-arrow-right.png') no-repeat right top;
+  background: url('/static/img/up-arrow-right.png') no-repeat right top;
   -webkit-background-size: contain;
   -moz-background-size: contain;
   -o-background-size: contain;
@@ -551,10 +551,10 @@ section.success a.active {
   background-position: center top;
 }
 .promo .iphone.iphone-black .iphone-holder {
-  background-image: url('img/iphone-black.png');
+  background-image: url('/static/img/iphone-black.png');
 }
 .promo .iphone.iphone-white .iphone-holder {
-  background-image: url('img/iphone-white.png');
+  background-image: url('/static/img/iphone-white.png');
 }
 .promo .iphone .iphone-holder-inner {
   position: absolute;
@@ -571,7 +571,7 @@ section.success a.active {
   display: block;
   width: 500px;
   height: 500px;
-  background: url('img/glow.png') no-repeat center top;
+  background: url('/static/img/glow.png') no-repeat center top;
   right: 0;
   top: 0;
   position: absolute;
@@ -583,7 +583,7 @@ section.success a.active {
   position: relative;
   width: 320px;
   height: 600px;
-  background-image: url('img/android-black.png');
+  background-image: url('/static/img/android-black.png');
   background-repeat: no-repeat;
   background-position: center top;
 }
@@ -602,7 +602,7 @@ section.success a.active {
   display: block;
   width: 500px;
   height: 500px;
-  background: url('img/glow.png') no-repeat center top;
+  background: url('/static/img/glow.png') no-repeat center top;
   right: 0;
   top: 0;
   position: absolute;
@@ -618,7 +618,7 @@ section.success a.active {
   background-position: center top;
 }
 .promo .ipad.ipad-black .ipad-holder {
-  background-image: url('img/ipad-black.png');
+  background-image: url('/static/img/ipad-black.png');
 }
 .promo .ipad.ipad-white .ipad-holder {
   background-image: url('img/ipad-white.png');
@@ -638,7 +638,7 @@ section.success a.active {
   display: block;
   width: 500px;
   height: 500px;
-  background: url('img/glow.png') no-repeat left top;
+  background: url('/static/img/glow.png') no-repeat left top;
   right: 0;
   top: 0;
   position: absolute;
@@ -701,10 +701,10 @@ section.success a.active {
   background-position: center top;
 }
 .promo-landscape .iphone.iphone-black .iphone-holder {
-  background-image: url('img/iphone-black-landscape.png');
+  background-image: url('/static/img/iphone-black-landscape.png');
 }
 .promo-landscape .iphone.iphone-white .iphone-holder {
-  background-image: url('img/iphone/iphone-white.png');
+  background-image: url('/static/img/iphone/iphone-white.png');
 }
 .promo-landscape .iphone .iphone-holder-inner {
   position: absolute;
@@ -721,7 +721,7 @@ section.success a.active {
   display: block;
   width: 100%;
   height: 500px;
-  background: url('img/glow.png') no-repeat center top;
+  background: url('/static/img/glow.png') no-repeat center top;
   top: -60px;
   left: 0;
   position: absolute;
@@ -734,7 +734,7 @@ section.success a.active {
   position: relative;
   width: 570px;
   height: 290px;
-  background-image: url('img/android-black-landscape.png');
+  background-image: url('/static/img/android-black-landscape.png');
   background-repeat: no-repeat;
   background-position: center top;
 }
@@ -753,7 +753,7 @@ section.success a.active {
   display: block;
   width: 100%;
   height: 500px;
-  background: url('img/glow.png') no-repeat center top;
+  background: url('/static/img/glow.png') no-repeat center top;
   top: -60px;
   left: 0;
   position: absolute;
