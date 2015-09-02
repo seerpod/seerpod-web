@@ -3,13 +3,9 @@ import threading
 from time import sleep
 from random import randint
 
-from util import *
-
 def _get_restaurant_channels():
-    r_channels = []
-    for resto in get_resto():
-        r_channels.append(resto['rid'])
-    return r_channels
+    #r_channels = []
+    return [1,2,3]
 
 class Listener(threading.Thread):
     def __init__(self, r, channels):
@@ -19,7 +15,7 @@ class Listener(threading.Thread):
         self.pubsub.subscribe(channels)
     
     def work(self, item):
-        #print item['channel'], ":", item['data']
+        print 'subscribe : channel=', item['channel'], "cnt=", item['data']
         channel = item['channel']
         cnt = item['data']
         user_channels = r.hgetall("users_%s" % (channel))
@@ -45,9 +41,15 @@ if __name__ == "__main__":
     cnt = 1 
     num_resto = len(_get_restaurant_channels())
     for i in range(1000):
-        #resto_channel = randint(1, num_resto)
-        #r.publish(resto_channel, str(cnt))
+        resto_channel = randint(1, num_resto)
+        print 'publish   :','channel=',resto_channel, 'cnt=',str(cnt)
+        r.publish(resto_channel, str(cnt))
         sleep(3)
    
+    """
     for channels in _get_restaurant_channels():
-        r.publish(channels, 'KILL')
+        d = [ {'id': channels, 'cnt': cnt}]
+        print d
+        r.publish(channels, d)
+        #r.publish(channels, 'KILL')
+    """

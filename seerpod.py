@@ -11,8 +11,13 @@ import tornado.options
 import tornado.web
 import datetime
 import count_encoder
+from pprint import pprint
 
-
+import tornadoredis
+import tornado.websocket
+import tornado.ioloop
+import tornado.gen
+import redis
 from tornado.options import define, options
 
 define("port", default=8888, help="run on the given port", type=int)
@@ -21,17 +26,17 @@ define("mysql_database", default="seerpod", help="seerpod database name")
 define("mysql_user", default="root", help="seerpod database user")
 define("mysql_password", default="5eerp0d1nc", help="seerpod database password")
 
-
 class Application(tornado.web.Application):
     def __init__(self):
         handlers = [
-            (r"/", HomeHandler),
-            (r"/count", CountHandler),
+            (r"/",      HomeHandler     ),
+            (r"/next",  CountNextHandler),
+            (r"/count", CountHandler    ),
         ]
         settings = dict(
             template_path=os.path.join(os.path.dirname(__file__), "templates"),
             static_path=os.path.join(os.path.dirname(__file__), "static"),
-            xsrf_cookies=True,
+            xsrf_cookies=False,
             cookie_secret="__TODO:_GENERATE_YOUR_OWN_RANDOM_VALUE_HERE__",
             debug=True,
         )
@@ -41,6 +46,7 @@ class Application(tornado.web.Application):
         self.db = torndb.Connection(
             host=options.mysql_host, database=options.mysql_database,
             user=options.mysql_user, password=options.mysql_password)
+        self.redis_db = redis.Redis()
 
 
 class HomeHandler(tornado.web.RequestHandler):
@@ -48,6 +54,10 @@ class HomeHandler(tornado.web.RequestHandler):
     @property
     def db(self):
         return self.application.db
+
+    @property
+    def redis_db(self):
+        return self.application.redis_db
 
     def get(self):
         self.render("home.html")
@@ -80,6 +90,7 @@ class HomeHandler(tornado.web.RequestHandler):
                 r.review_count = review_count
                 r.rating = rating
                 r.occupancy = self.get_restaurant_vacancy(r.id, r.capacity)
+                self.redis_db.hset('users_%d' % r['id'], 'user', 1)
 
             self.render("search.html", address=address, restaurants=restaurants)
 
@@ -104,13 +115,38 @@ class CountHandler(tornado.web.RequestHandler):
 
         self.render("home.html")
 
+class CountNextHandler(tornado.websocket.WebSocketHandler):
+    def __init__(self, *args, **kwargs):
+        super(CountNextHandler, self).__init__(*args, **kwargs)
+        self.listen()
+
+    @tornado.gen.engine
+    def listen(self):
+        self.client = tornadoredis.Client()
+        self.client.connect()
+        yield tornado.gen.Task(self.client.subscribe, 'user')
+        self.client.listen(self.on_message)
+
+    def on_message(self, msg):
+        if msg.kind == 'message':
+            self.write_message(str(msg.body))
+        if msg.kind == 'disconnect':
+            # Do not try to reconnect, just send a message back
+            # to the client and close the client connection
+            self.write_message('The connection terminated '
+                               'due to a Redis server error.')
+            self.close()
+
+    def on_close(self):
+        if self.client.subscribed:
+            self.client.unsubscribe('user')
+            self.client.disconnect()
 
 def main():
     tornado.options.parse_command_line()
     http_server = tornado.httpserver.HTTPServer(Application())
     http_server.listen(options.port)
     tornado.ioloop.IOLoop.current().start()
-
 
 if __name__ == "__main__":
     main()

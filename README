@@ -50,3 +50,26 @@ It depends on MySQL, you need to set up MySQL and the database schema for the de
  
    visit the site at localhost:8888
 
+#### Dependency
+<pre>
+sudo apt-get update
+sudo apt-get -y install git 
+sudo apt-get -y install python-pip python-dev build-essential memcached python-memcache
+sudo pip install tornado
+sudo pip install torndb
+sudo apt-get -y install python-mysqldb
+sudo pip install simplejson
+sudo apt-get -y install mysql-client
+sudo pip install tornado-redis
+</pre>
+
+#### Start server
+<pre>
+sudo python main.py --port=80
+</pre>
+
+### Start listener
+<pre>
+python listerner.py
+</pre>
+
