@@ -68,8 +68,16 @@ sudo pip install tornado-redis
 sudo python main.py --port=80
 </pre>
 
-### Start listener
+#### Start listener
 <pre>
 python listerner.py
 </pre>
+
+#### How does web sockets work
+* Every time a user comes to the search page. A Hashset entry is setup with key = store_id and value = user_id.
+* The user is also subscribed to the channel with name user_id.
+* The listener is subscribed to the channel with the store_id's.
+* The listener publishes to the userid channels whenever it reads any entry in the store channel.
+
+http://stackoverflow.com/questions/4852702/do-html-websockets-maintain-an-open-connection-for-each-client-does-this-scale
 
