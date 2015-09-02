@@ -12,26 +12,61 @@
     <title>Seerpod</title>
 
     <!-- Bootstrap Core CSS - Uses Bootswatch Flatly Theme: http://bootswatch.com/flatly/ -->
-    <link href="../../static/bootstrap.min.css" rel="stylesheet">
+    <link href="{{ static_url("css/bootstrap.min.css") }}" rel="stylesheet">
 
     <!-- Custom CSS -->
-    <link href="../../static/seerpod.css" rel="stylesheet">
+    <link href="{{ static_url("css/seerpod.css") }}" rel="stylesheet">
 
     <!-- Custom Fonts -->
     <link href="../../static/css/font-awesome.min.css" rel="stylesheet" type="text/css">
     <link href="http://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css">
     <link href="http://fonts.googleapis.com/css?family=Lato:400,700,400italic,700italic" rel="stylesheet" type="text/css">
 
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js" ></script>
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
         <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
         <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
+    <script>
+ function append_content(data) {
+   data = eval(data);
+    
+   var sid = data[0]['id'];
+   var cnt = data[0]['cnt'];
+   var curr_cnt = $("#progress_bar_" + sid).attr("aria-valuenow");
+   var final_cnt = parseInt(curr_cnt) + parseInt(cnt);
+   $("#progress_bar_" + sid).attr("aria-valuenow", final_cnt);
+   $("#progress_bar_" + sid).css("width", final_cnt +"%");
+   $("#occupancy_" + sid).text(final_cnt +"%");
+  }
+
+ function open_websocket(){
+   function show_message(message){
+     if (message == "Connected") {
+        return ;
+     }
+     console.log(message);
+     append_content(message);
+   }
+        		
+   var ws = new WebSocket("ws://seerpod.com/next");
+   ws.onopen = function() {
+     show_message('Connected');
+   };
+   ws.onmessage = function(event) {
+     show_message(event.data);
+   };
+   ws.onclose = function() {
+     show_message("Closed.");
+   };
+  }
+</script>
 
 </head>
 
-<body id="page-top" class="index">
+<body id="page-top" class="index" onload="open_websocket();">
 
     <!-- Navigation -->
     <nav class="navbar navbar-default navbar-fixed-top set-bgcolor">
@@ -108,51 +143,7 @@
     </div>
 
     <!-- Footer -->
-    <footer class="text-center">
-        <div class="footer-above">
-            <div class="container">
-                <div class="row">
-                    <div class="footer-col col-md-4">
-                        <h3>Location</h3>
-                        <p>100 1st Ave<br>San Francisco, CA 94125</p>
-                    </div>
-                    <div class="footer-col col-md-4">
-                        <h3>Around the Web</h3>
-                        <ul class="list-inline">
-                            <li>
-                                <a href="#" class="btn-social btn-outline"><i class="fa fa-fw fa-facebook"></i></a>
-                            </li>
-                            <li>
-                                <a href="#" class="btn-social btn-outline"><i class="fa fa-fw fa-google-plus"></i></a>
-                            </li>
-                            <li>
-                                <a href="#" class="btn-social btn-outline"><i class="fa fa-fw fa-twitter"></i></a>
-                            </li>
-                            <li>
-                                <a href="#" class="btn-social btn-outline"><i class="fa fa-fw fa-linkedin"></i></a>
-                            </li>
-                            <li>
-                                <a href="#" class="btn-social btn-outline"><i class="fa fa-fw fa-dribbble"></i></a>
-                            </li>
-                        </ul>
-                    </div>
-                    <div class="footer-col col-md-4">
-                        <h3>Seerpod Team</h3>
-                        <p>Seerpod is founded by a bunch of Computer Science enthusiasts who left their jobs at high-profile companies to work on their vision of bringing offline data online.</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="footer-below">
-            <div class="container">
-                <div class="row">
-                    <div class="col-lg-12">
-                        Copyright &copy; Seerpod 2015
-                    </div>
-                </div>
-            </div>
-        </div>
-    </footer>
+   {% include "footer.html" %}
 
     <!-- jQuery -->
     <script src="js/jquery.js"></script>
