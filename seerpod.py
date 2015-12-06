@@ -3,61 +3,110 @@
 __author__ = 'tarunkumar'
 
 import os.path
+import datetime
 import torndb
 import tornado.escape
 import tornado.httpserver
 import tornado.ioloop
 import tornado.options
 import tornado.web
-import datetime
-import count_encoder
-from pprint import pprint
-
-import tornadoredis
 import tornado.websocket
 import tornado.ioloop
 import tornado.gen
-import redis
+from tornado import gen
+import error_codes
 from tornado.options import define, options
-
-define("port", default=8888, help="run on the given port", type=int)
-define("mysql_host", default="dev.cisege0e6wes.us-west-2.rds.amazonaws.com:3306", help="seerpod database host")
-define("mysql_database", default="seerpod", help="seerpod database name")
-define("mysql_user", default="root", help="seerpod database user")
-define("mysql_password", default="5eerp0d1nc", help="seerpod database password")
-
-class Application(tornado.web.Application):
-    def __init__(self):
-        handlers = [
-            (r"/",      HomeHandler     ),
-            (r"/next",  CountNextHandler),
-            (r"/count", CountHandler    ),
-        ]
-        settings = dict(
-            template_path=os.path.join(os.path.dirname(__file__), "templates"),
-            static_path=os.path.join(os.path.dirname(__file__), "static"),
-            xsrf_cookies=False,
-            cookie_secret="__TODO:_GENERATE_YOUR_OWN_RANDOM_VALUE_HERE__",
-            debug=True,
-        )
-        super(Application, self).__init__(handlers, **settings)
-
-        # Have one global connection to the blog DB across all handlers
-        self.db = torndb.Connection(
-            host=options.mysql_host, database=options.mysql_database,
-            user=options.mysql_user, password=options.mysql_password)
-        self.redis_db = redis.Redis()
+import httplib
+import base
+import business_contact_api
+import count_encoder
+import business_api
+import authenticator
 
 
-class HomeHandler(tornado.web.RequestHandler):
-
+class BaseHandler(tornado.web.RequestHandler):
     @property
     def db(self):
         return self.application.db
 
     @property
+    def biz_api(self):
+        return business_api.BusinessApi(self.db)
+
+    @property
+    def biz_contact_api(self):
+        return business_contact_api.BusinessContacts(self.db)
+
+    @property
     def redis_db(self):
         return self.application.redis_db
+
+    def write_error(self, status_code, **kwargs):
+        data = {}
+        data['error_code'] = status_code
+        data['message'] = kwargs.get('reason')
+        self.write(data)
+
+
+class AuthLoginHandler(BaseHandler):
+
+    @gen.coroutine
+    def post(self):
+        email = self.get_argument('email')
+        password = self.get_argument('password')
+
+        if not password or not email:
+            self.write_error(status_code=error_codes.INVALID_ARGUMENTS,
+                             reason='Invalid request, password or email not passed')
+            self.set_status(400)
+            return
+
+        user = self.biz_contact_api.get_user_detail_from_email(email)
+
+        if not user:
+            self.write_error(status_code=error_codes.INVALID_EMAIL,
+                             reason='Invalid email, %s not found' % email)
+            self.set_status(400)
+            return
+
+        if password == user.password:
+            authentication_code = authenticator.generate_authentication_code(user)
+            data = {'authentication_code': authentication_code}
+            self.write(data)
+        else:
+            self.set_status(400)
+            self.write_error(status_code=error_codes.INVALID_PASSWORD,
+                             reason='Invalid Password for email %s' % email)
+
+
+class SignupHandler(BaseHandler):
+
+    @gen.coroutine
+    def post(self):
+        email = self.get_argument('email')
+        password = self.get_argument('password')
+
+        if not password or not email:
+            self.write_error(status_code=error_codes.INVALID_ARGUMENTS,
+                             reason='Invalid request, password or email not passed')
+            self.set_status(400)
+            return
+
+        user = self.biz_contact_api.get_user_detail_from_email(email)
+
+        if user:
+            self.write_error(status_code=error_codes.EMAIL_ALREADY_EXIST,
+                             reason='Email %s already exists' % email)
+            self.set_status(400)
+            return
+
+        user = self.biz_contact_api.create_business_account(email, password,  self.get_argument('email'),
+                                                    self.get_argument('first_name'), self.get_argument('last_name'))
+
+        self.write({'authentication_code': authenticator.generate_authentication_code(user)})
+
+
+class HomeHandler(BaseHandler):
 
     def get(self):
         self.render("home.html")
@@ -68,52 +117,79 @@ class HomeHandler(tornado.web.RequestHandler):
 
         return 100+(13+id % 2) * id, 3+id % 2
 
-    def get_restaurant_vacancy(self, id, capacity):
-
-        query = "SELECT count FROM restaurant_count where restaurant_id=%s ORDER BY time_stamp DESC LIMIT 1" % id
-        restaurant_count = self.db.query(query)[0]
-
-        occupancy_percent = restaurant_count.get('count', 0)*100.0/capacity
-
-        return int(occupancy_percent)
-
     def post(self):
-        address = self.get_argument("user-address", None)
+        address = self.get_argument('user-address', None)
+        no_template = self.get_argument('render-template', None)
+        if not address:
+            self.set_status(400)
+            self.write_error(status_code=error_codes.INVALID_ARGUMENTS ,
+                             reason='Please pass address')
+            return
 
         if address:
-            # TODO(TARUN) - Get nearest restaurants based on location(currently I am not using location field)
-            restaurants = self.db.query("SELECT * FROM restaurants")
+            # TODO(TARUN) - Get nearest businesses based on location(currently I am not using location field)
+            businesses = self.biz_api.get_businesses_near_address(address)
 
-            for r in restaurants:
+            for b in businesses:
                  # Decorate restaurants with yelp reviews and availability
-                review_count, rating = self.get_yelp_data(r.id)
-                r.review_count = review_count
-                r.rating = rating
-                r.occupancy = self.get_restaurant_vacancy(r.id, r.capacity)
-                self.redis_db.hset('users_%d' % r['id'], 'user', 1)
+                review_count, rating = self.get_yelp_data(b.id)
+                b.review_count = review_count
+                b['created_on'] = None
+                b.rating = rating
+                b.occupancy = self.biz_api.get_business_vacancy(b.id, b.capacity)
+                b.street_address = '%s %s, %s %s' % (b.street_number, b.street_name, b.city, b.state)
+                self.redis_db.hset('users_%d' % b['id'], 'user', 1)
+            if no_template:
+                self.write({'businesses': businesses})
+            else:
+                self.render("search.html", address=address, businesses=businesses)
 
-            self.render("search.html", address=address, restaurants=restaurants)
 
-
-class CountHandler(tornado.web.RequestHandler):
-    @property
-    def db(self):
-        return self.application.db
+class BusinessDetailHandler(BaseHandler):
 
     def get(self):
-        params = self.get_arguments('c')
+        biz_id = self.get_argument("id", None)
+        detail = self.biz_api.get_business_detail(biz_id)
 
-        if params and params[0]:
+        if not detail:
+            self.write_error(status_code=error_codes.INVAID_BUSINESS_ID,
+                             reason='Business id %s does not exists' % biz_id)
+            return
+
+        detail.pop('created_on', None)
+        self.write({'data': detail})
+
+
+class CountHandler(BaseHandler):
+
+    def post(self):
+        params = self.get_argument('c')
+
+        if params:
             encoded_restaurant_count = params[0]
-            rest_id, time_stamp, count = count_encoder.get_count_from_encoded_count_request(
+            biz_id, time_stamp, count = count_encoder.get_count_from_encoded_count_request(
                 encoded_restaurant_count)
 
             ts = datetime.datetime.fromtimestamp(float(time_stamp))
-            command = "INSERT INTO restaurant_count (restaurant_id, time_stamp, count) VALUES (%s, '%s', %s)" % (
-                rest_id, ts, count)
+            command = "INSERT INTO business_counter (biz_id, time_stamp, count) VALUES (%s, '%s', %s)" % (
+                biz_id, ts, count)
             self.db.execute(command)
 
-        self.render("home.html")
+    def get(self):
+        biz_id = self.get_argument('id')
+
+        if not biz_id:
+            self.write_error(status_code=error_codes.INVALID_ARGUMENTS,
+                             reason='Business id not passed')
+            return
+        count = self.biz_api.get_business_count(biz_id)
+
+        if count:
+            self.write({'count': count})
+        else:
+            self.write_error(status_code=error_codes.INVAID_BUSINESS_ID,
+                             reason='Invalid business id %s' % biz_id)
+
 
 class CountNextHandler(tornado.websocket.WebSocketHandler):
     def __init__(self, *args, **kwargs):
@@ -122,7 +198,7 @@ class CountNextHandler(tornado.websocket.WebSocketHandler):
 
     @tornado.gen.engine
     def listen(self):
-        self.client = tornadoredis.Client()
+        #self.client = tornadoredis.Client()
         self.client.connect()
         yield tornado.gen.Task(self.client.subscribe, 'user')
         self.client.listen(self.on_message)
@@ -142,9 +218,10 @@ class CountNextHandler(tornado.websocket.WebSocketHandler):
             self.client.unsubscribe('user')
             self.client.disconnect()
 
+
 def main():
     tornado.options.parse_command_line()
-    http_server = tornado.httpserver.HTTPServer(Application())
+    http_server = tornado.httpserver.HTTPServer(base.Application())
     http_server.listen(options.port)
     tornado.ioloop.IOLoop.current().start()
 
