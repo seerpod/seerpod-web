@@ -106,6 +106,37 @@ class SignupHandler(BaseHandler):
         self.write({'authentication_code': authenticator.generate_authentication_code(user)})
 
 
+class SearchHandler(BaseHandler):
+
+    def get_yelp_data(self, id):
+        # TODO(we need to use actual api, to get these reviews, we cannot store it our db),
+        #  returning just random numbers for now
+
+        return 100+(13+id % 2) * id, 3+id % 2
+
+    def get(self):
+        address = self.get_argument('user-address', None)
+        if not address:
+            self.set_status(400)
+            self.write_error(status_code=error_codes.INVALID_ARGUMENTS,
+                             reason='Please pass address')
+            return
+
+        if address:
+            # TODO(TARUN) - Get nearest businesses based on location(currently I am not using location field)
+            businesses = self.biz_api.get_businesses_near_address(address)
+            print
+            for b in businesses:
+                 # Decorate restaurants with yelp reviews and availability
+                review_count, rating = self.get_yelp_data(b.id)
+                b['review_count'] = review_count
+                b['created_on'] = None
+                b['rating'] = rating
+                b['occupancy'] = self.biz_api.get_business_vacancy(b.id, b.capacity)
+                b['street_address'] = '%s %s, %s %s' % (b.street_number, b.street_name, b.city, b.state)
+            self.write({'businesses': businesses})
+
+
 class HomeHandler(BaseHandler):
 
     def get(self):
@@ -122,7 +153,7 @@ class HomeHandler(BaseHandler):
         no_template = self.get_argument('render-template', None)
         if not address:
             self.set_status(400)
-            self.write_error(status_code=error_codes.INVALID_ARGUMENTS ,
+            self.write_error(status_code=error_codes.INVALID_ARGUMENTS,
                              reason='Please pass address')
             return
 
@@ -138,7 +169,7 @@ class HomeHandler(BaseHandler):
                 b.rating = rating
                 b.occupancy = self.biz_api.get_business_vacancy(b.id, b.capacity)
                 b.street_address = '%s %s, %s %s' % (b.street_number, b.street_name, b.city, b.state)
-                self.redis_db.hset('users_%d' % b['id'], 'user', 1)
+                #self.redis_db.hset('users_%d' % b['id'], 'user', 1)
             if no_template:
                 self.write({'businesses': businesses})
             else:
