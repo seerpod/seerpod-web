@@ -39,7 +39,7 @@ settings = {
             "static_path"  : STATIC_PATH,
             "debug"        : DEBUG,
             "cookie_secret": COOKIE_SECRET,
-            "login_url"    : "/auth/login/"
+            "login_url"    : "/login/"
 }
 
 server_settings = {

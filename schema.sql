@@ -15,7 +15,8 @@ ALTER DATABASE CHARACTER SET "utf8";
 -- Count for business
 DROP TABLE IF EXISTS business_contact;
 CREATE TABLE business_contact (
-    owner_email_id VARCHAR(250) NOT NULL PRIMARY KEY,
+    id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    owner_email_id VARCHAR(250) NOT NULL,
     password VARCHAR(150) NOT NULL,
     phone VARCHAR(50),
     first_name  VARCHAR(150) NOT NULL,
@@ -32,8 +33,8 @@ CREATE TABLE business_business (
    owner_email_id VARCHAR(250) NOT NULL,
    name VARCHAR(250) NOT NULL,
    image_path VARCHAR(300),
-   lat DECIMAL(10, 8) NOT NULL,
-   lng DECIMAL(10, 8) NOT NULL,
+   lat FLOAT (10, 8) NOT NULL,
+   lng FLOAT (10, 8) NOT NULL,
    street_name VARCHAR(250) NOT NULL,
    street_number VARCHAR(250) NOT NULL,
    zipcode  INT NOT NULL,
@@ -41,15 +42,14 @@ CREATE TABLE business_business (
    state VARCHAR(50) NOT NULL,
    cuisine VARCHAR(250),
    description VARCHAR(500),
-   rating DECIMAL(2, 2),
+   rating FLOAT (2, 2),
    capacity INT,
    phone VARCHAR(50) NOT NULL,
    latest_review VARCHAR(500),
    operation_time  VARCHAR(250),
    website VARCHAR(250),
-   expensive_rating DECIMAL(2, 2),
-   created_on TIMESTAMP NOT NULL,
-   FOREIGN KEY (owner_email_id) REFERENCES business_contact(owner_email_id)
+   expensive_rating FLOAT(2, 2),
+   created_on TIMESTAMP NOT NULL
 );
 
 
@@ -82,8 +82,8 @@ CREATE TABLE tracking_user_logs (
     user_id VARCHAR(150) NOT NULL,
     rating DECIMAL(2, 2),
     distance_from_user DECIMAL(10, 3) NOT NULL,
-    lat DECIMAL(10, 8) NOT NULL,
-    lng DECIMAL(10, 8) NOT NULL,
+    lat FLOAT (10, 8) NOT NULL,
+    lng FLOAT (10, 8) NOT NULL,
     page_number  INT NOT NULL,
     result_position INT NOT NULL,
     time_left_to_close INT,
@@ -106,7 +106,7 @@ CREATE TABLE tracking_user_clicks(
 
 --Bootstrap for business_contact
 
-INSERT INTO business_contact VALUES ('tar.iiita@gmail.com', 'password', '412-980-7189', 'Tarun', 'Kumar');
+INSERT INTO business_contact VALUES (1, 'tar.iiita@gmail.com', 'password', '412-980-7189', 'Tarun', 'Kumar');
 
 
 -- Bootstrap for business data
