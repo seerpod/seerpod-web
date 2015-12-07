@@ -135,6 +135,8 @@ class SearchHandler(BaseHandler):
                 b['review_count'] = review_count
                 b['created_on'] = None
                 b['rating'] = rating
+                b['image_url'] = ("%s://%s/static/img/restaurants/%s" % (self.request.protocol,
+                                                                         self.request.host, b['image_path']))
                 b['occupancy'] = self.biz_api.get_business_vacancy(b.id, b.capacity)
                 b['street_address'] = '%s %s, %s %s' % (b.street_number, b.street_name, b.city, b.state)
             self.set_header("Access-Control-Allow-Origin", "*")
