@@ -130,6 +130,18 @@ INSERT INTO business_business VALUES (13, 1, 'himanshu.gahlot86@gmail.com', 'The
 INSERT INTO business_counter VALUES (1, '2015-11-08 15:00:10', 234);
 INSERT INTO business_counter VALUES (2, '2015-11-08 15:00:10', 121);
 INSERT INTO business_counter VALUES (3, '2015-11-08 15:00:10', 31);
+INSERT INTO business_counter VALUES (4, '2015-11-08 15:00:10', 49);
+INSERT INTO business_counter VALUES (5, '2015-11-08 15:00:10', 21);
+INSERT INTO business_counter VALUES (6, '2015-11-08 15:00:10', 331);
+INSERT INTO business_counter VALUES (7, '2015-11-08 15:00:10', 65);
+INSERT INTO business_counter VALUES (8, '2015-11-08 15:00:10', 99);
+INSERT INTO business_counter VALUES (9, '2015-11-08 15:00:10', 76);
+INSERT INTO business_counter VALUES (10, '2015-11-08 15:00:10', 434);
+INSERT INTO business_counter VALUES (11, '2015-11-08 15:00:10', 13);
+INSERT INTO business_counter VALUES (12, '2015-11-08 15:00:10', 223);
+INSERT INTO business_counter VALUES (13, '2015-11-08 15:00:10', 34);
+
+
 
 --Bootstrap for business feedback
 INSERT INTO user_feedback  VALUES ('some_random_id', 1, 3.5, '2015-11-08 15:00:10');

@@ -10,10 +10,10 @@ class BusinessApi:
 
     def get_business_vacancy(self, id, capacity):
 
-        query = "SELECT count FROM restaurant_count where restaurant_id=%s ORDER BY time_stamp DESC LIMIT 1" % id
-        restaurant_count = self.db.query(query)[0]
-
-        occupancy_percent = restaurant_count.get('count', 0)*100.0/capacity
+	biz_count = self.get_business_count(id)
+	if not biz_count:
+		return None
+        occupancy_percent = biz_count*100.0/capacity
 
         return int(occupancy_percent)
 
