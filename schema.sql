@@ -125,6 +125,7 @@ INSERT INTO business_business VALUES (10, 1, 'himanshu.gahlot86@gmail.com', 'Red
 INSERT INTO business_business VALUES (11, 1, 'himanshu.gahlot86@gmail.com', 'Pakwan Restaurant', 'pakwan-restaurant.jpg', 37.775403, -122.409289, '16th St', '3180-82', 94102, 'San Francisco', 'CA', 'Indian', '', 5, 170, '(415) 255-2440', '', '8AM: 9PM', '', 5, '2015-11-04 15:00:10');
 INSERT INTO business_business VALUES (12, 1, 'himanshu.gahlot86@gmail.com', 'Tava India Kitchen', 'tava-india-kitchen.jpg', 37.775403, -122.409289, '2nd St', '163', 94102, 'San Francisco', 'CA', 'Indian', '', 4, 10, '(415) 543-8282', '', '8AM: 9PM', '', 4, '2015-11-04 15:00:10');
 INSERT INTO business_business VALUES (13, 1, 'himanshu.gahlot86@gmail.com', 'The Dosa Brothers', 'dosa-brothers.jpg', 37.775403, -122.409289, 'Market St', '598', 94102, 'San Francisco', 'CA', 'Indian', '', 3, 30, '(415) 378-0984', '', '8AM: 9PM', '', 3, '2015-11-04 15:00:10');
+INSERT INTO business_business VALUES (14, 1, utkarsh.cmu@@gmail.com', 'Brenda's French Soul Food', 'brendas-french-soul-food.jpg', 37.782895, -122.418962, 'Polk St', '652', 94102, 'San Francisco', 'CA', 'French', '', 4, 60, '(415) 345-8100', '', '8AM: 3PM', '', 2, '2015-12-07 06:45:30');
 
 -- Bootstrap for business count
 INSERT INTO business_counter VALUES (1, '2015-11-08 15:00:10', 234);
