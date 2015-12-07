@@ -25,6 +25,7 @@ import authenticator
 
 
 class BaseHandler(tornado.web.RequestHandler):
+
     @property
     def db(self):
         return self.application.db
@@ -101,8 +102,10 @@ class SignupHandler(BaseHandler):
             return
 
         user = self.biz_contact_api.create_business_account(email, password,  self.get_argument('email'),
-                                                    self.get_argument('first_name'), self.get_argument('last_name'))
+                                                            self.get_argument('first_name'),
+                                                            self.get_argument('last_name'))
 
+        self.set_header("Access-Control-Allow-Origin", "*")
         self.write({'authentication_code': authenticator.generate_authentication_code(user)})
 
 
@@ -134,6 +137,7 @@ class SearchHandler(BaseHandler):
                 b['rating'] = rating
                 b['occupancy'] = self.biz_api.get_business_vacancy(b.id, b.capacity)
                 b['street_address'] = '%s %s, %s %s' % (b.street_number, b.street_name, b.city, b.state)
+            self.set_header("Access-Control-Allow-Origin", "*")
             self.write({'businesses': businesses})
 
 
@@ -214,7 +218,7 @@ class CountHandler(BaseHandler):
                              reason='Business id not passed')
             return
         count = self.biz_api.get_business_count(biz_id)
-
+        self.set_header("Access-Control-Allow-Origin", "*")
         if count:
             self.write({'count': count})
         else:
