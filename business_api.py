@@ -10,9 +10,10 @@ class BusinessApi:
 
     def get_business_vacancy(self, id, capacity):
 
-	biz_count = self.get_business_count(id)
-	if not biz_count:
-		return None
+        biz_count = self.get_business_count(id)
+        if not biz_count:
+            return None
+
         occupancy_percent = biz_count*100.0/capacity
 
         return int(occupancy_percent)
@@ -27,8 +28,15 @@ class BusinessApi:
 
         return None
 
-    def get_businesses_near_address(self, query_address):
-        restaurants = self.db.query("SELECT * FROM business_business")
+    def get_businesses_near_address(self, query_address, cuisine_type=None):
+
+        command = "SELECT * FROM business_business"
+
+        if cuisine_type:
+            cuisine_condition = " where cuisine='%s'" % cuisine_type
+            command += cuisine_condition
+
+        restaurants = self.db.query(command)
         return restaurants
 
     def get_business_detail(self, id):

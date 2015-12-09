@@ -125,22 +125,22 @@ class SearchHandler(BaseHandler):
                              reason='Please pass address')
             return
 
-        if address:
-            # TODO(TARUN) - Get nearest businesses based on location(currently I am not using location field)
-            businesses = self.biz_api.get_businesses_near_address(address)
-            print
-            for b in businesses:
-                 # Decorate restaurants with yelp reviews and availability
-                review_count, rating = self.get_yelp_data(b.id)
-                b['review_count'] = review_count
-                b['created_on'] = None
-                b['rating'] = rating
-                b['image_url'] = ("%s://%s/static/img/restaurants/%s" % (self.request.protocol,
-                                                                         self.request.host, b['image_path']))
-                b['occupancy'] = self.biz_api.get_business_vacancy(b.id, b.capacity)
-                b['street_address'] = '%s %s, %s %s' % (b.street_number, b.street_name, b.city, b.state)
-            self.set_header("Access-Control-Allow-Origin", "*")
-            self.write({'businesses': businesses})
+        cuisine_type = self.get_argument('cuisine-type', None)
+        # TODO(TARUN) - Get nearest businesses based on location(currently I am not using location field)
+        businesses = self.biz_api.get_businesses_near_address(address, cuisine_type)
+
+        for b in businesses:
+            # Decorate restaurants with yelp reviews and availability
+            review_count, rating = self.get_yelp_data(b.id)
+            b['review_count'] = review_count
+            b['created_on'] = None
+            b['rating'] = rating
+            b['image_url'] = ("%s://%s/static/img/restaurants/%s" % (self.request.protocol,
+                                                                     self.request.host, b['image_path']))
+            b['occupancy'] = self.biz_api.get_business_vacancy(b.id, b.capacity)
+            b['street_address'] = '%s %s, %s %s' % (b.street_number, b.street_name, b.city, b.state)
+        self.set_header("Access-Control-Allow-Origin", "*")
+        self.write({'businesses': businesses})
 
 
 class HomeHandler(BaseHandler):
