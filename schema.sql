@@ -50,6 +50,7 @@ CREATE TABLE business_business (
    website VARCHAR(250),
    expensive_rating FLOAT(2, 2),
    created_on TIMESTAMP NOT NULL
+   open_days VARCHAR(50) NOT NULL,
 );
 
 
@@ -111,21 +112,21 @@ INSERT INTO business_contact VALUES (1, 'tar.iiita@gmail.com', 'password', '412-
 
 -- Bootstrap for business data
 
-INSERT INTO business_business VALUES (1, 1, 'tar.iiita@gmail.com', 'Chaat Cafe', 'indian-chaat-cafe.jpg', 37.782978, -122.397995, '3rd St', '320', 94133, 'San Francisco', 'CA', 'Indian', '', 4, 300, '412-980-7189', '', '8AM: 9PM', '', 3, '2015-11-04 15:00:10');
-INSERT INTO business_business VALUES (2, 1, 'tar.iiita@gmail.com', 'Curry Up Now', 'curry-up-truck.jpg', 37.762350, -122.421515, 'Valencia St', '659', 94110, 'San Francisco', 'CA', 'Indian', '', 3, 160, '412-980-7189', '', '8AM: 9PM', '', 2, '2015-11-04 15:00:10');
-INSERT INTO business_business VALUES (3, 1, 'tar.iiita@gmail.com', 'Basil Thai Restaurant and Bar', 'basil.jpg', 37.775403, -122.409289, 'Folsom St', '1175', 94103, 'San Francisco', 'CA', 'Indian', '', 5, 80, '412-980-7189', '', '8AM: 9PM', '', 5, '2015-11-04 15:00:10');
+INSERT INTO business_business VALUES (1, 1, 'tar.iiita@gmail.com', 'Chaat Cafe', 'indian-chaat-cafe.jpg', 37.782978, -122.397995, '3rd St', '320', 94133, 'San Francisco', 'CA', 'Indian', '', 4, 300, '412-980-7189', '', '8AM: 12AM', '', 3, '2015-11-04 15:00:10', '012456');
+INSERT INTO business_business VALUES (2, 1, 'tar.iiita@gmail.com', 'Curry Up Now', 'curry-up-truck.jpg', 37.762350, -122.421515, 'Valencia St', '659', 94110, 'San Francisco', 'CA', 'Indian', '', 3, 160, '412-980-7189', '', '8AM: 2AM', '', 2, '2015-11-04 15:00:10', '01236');
+INSERT INTO business_business VALUES (3, 1, 'tar.iiita@gmail.com', 'Basil Thai Restaurant and Bar', 'basil.jpg', 37.775403, -122.409289, 'Folsom St', '1175', 94103, 'San Francisco', 'CA', 'Indian', '', 5, 80, '412-980-7189', '', '4PM: 9PM', '', 5, '2015-11-04 15:00:10', '03456');
 --Indian restaurants
-INSERT INTO business_business VALUES (4, 1, 'himanshu.gahlot86@gmail.com', 'Little Delhi', 'little-delhi.jpg', 37.775403, -122.409289, 'Eddy St', '83', 94102, 'San Francisco', 'CA', 'Indian', '', 5, 100, '(415) 398-3173', '', '8AM: 9PM', '', 5, '2015-11-04 15:00:10');
-INSERT INTO business_business VALUES (5, 1, 'himanshu.gahlot86@gmail.com', 'Shalimar Restaurant', 'shalimar-restaurant.jpg', 37.775403, -122.409289, 'Jones St', '532', 94102, 'San Francisco', 'CA', 'Indian', '', 1, 110, '(415) 928-0333', '', '8AM: 9PM', '', 3, '2015-11-04 15:00:10');
-INSERT INTO business_business VALUES (6, 1, 'himanshu.gahlot86@gmail.com', 'Mela Tandoori Kitchen', 'mela-tandoori.jpg', 37.775403, -122.409289, 'Golden Gate Ave', '536', 94102, 'San Francisco', 'CA', 'Indian', '', 3, 120, '(415) 447-4041', '', '8AM: 9PM', '', 2, '2015-11-04 15:00:10');
-INSERT INTO business_business VALUES (7, 1, 'himanshu.gahlot86@gmail.com', 'Chutney', 'chutney.jpg', 37.775403, -122.409289, 'Jones St', '511', 94102, 'San Francisco', 'CA', 'Indian', '', 5, 130, '(415) 931-5541', '', '8AM: 9PM', '', 4, '2015-11-04 15:00:10');
-INSERT INTO business_business VALUES (8, 1, 'himanshu.gahlot86@gmail.com', 'Amber India', 'amber-india.jpg', 37.775403, -122.409289, 'Yerba Buena Ln', '25', 94102, 'San Francisco', 'CA', 'Indian', '', 4, 140, '(415) 777-0500', '', '8AM: 9PM', '', 1, '2015-11-04 15:00:10');
-INSERT INTO business_business VALUES (9, 1, 'himanshu.gahlot86@gmail.com', 'Lahor Karahi', 'lahore-karahi.jpg', 37.775403, -122.409289, 'OFarrell St', '612', 94102, 'San Francisco', 'CA', 'Indian', '', 2, 150, '(415) 567-8603', '', '8AM: 9PM', '', 1, '2015-11-04 15:00:10');
-INSERT INTO business_business VALUES (10, 1, 'himanshu.gahlot86@gmail.com', 'Red Chilli', 'red-chilli.jpg', 37.775403, -122.409289, 'Jones St', '522', 94102, 'San Francisco', 'CA', 'Indian', '', 1, 160, '(415) 931-3529', '', '8AM: 9PM', '', 2, '2015-11-04 15:00:10');
-INSERT INTO business_business VALUES (11, 1, 'himanshu.gahlot86@gmail.com', 'Pakwan Restaurant', 'pakwan-restaurant.jpg', 37.775403, -122.409289, '16th St', '3180-82', 94102, 'San Francisco', 'CA', 'Indian', '', 5, 170, '(415) 255-2440', '', '8AM: 9PM', '', 5, '2015-11-04 15:00:10');
-INSERT INTO business_business VALUES (12, 1, 'himanshu.gahlot86@gmail.com', 'Tava India Kitchen', 'tava-india-kitchen.jpg', 37.775403, -122.409289, '2nd St', '163', 94102, 'San Francisco', 'CA', 'Indian', '', 4, 10, '(415) 543-8282', '', '8AM: 9PM', '', 4, '2015-11-04 15:00:10');
-INSERT INTO business_business VALUES (13, 1, 'himanshu.gahlot86@gmail.com', 'The Dosa Brothers', 'dosa-brothers.jpg', 37.775403, -122.409289, 'Market St', '598', 94102, 'San Francisco', 'CA', 'Indian', '', 3, 30, '(415) 378-0984', '', '8AM: 9PM', '', 3, '2015-11-04 15:00:10');
-INSERT INTO business_business VALUES (14, 1, 'utkarsh.cmu@gmail.com', 'Brenda\'s French Soul Food', 'brendas-french-soul-food.jpg', 37.782895, -122.418962, 'Polk St', '652', 94102, 'San Francisco', 'CA', 'French', '', 4, 60, '(415) 345-8100', '', '8AM: 3PM', '', 2, '2015-12-07 06:45:30');
+INSERT INTO business_business VALUES (4, 1, 'himanshu.gahlot86@gmail.com', 'Little Delhi', 'little-delhi.jpg', 37.775403, -122.409289, 'Eddy St', '83', 94102, 'San Francisco', 'CA', 'Indian', '', 5, 100, '(415) 398-3173', '', '8AM: 9PM', '', 5, '2015-11-04 15:00:10', '0123456');
+INSERT INTO business_business VALUES (5, 1, 'himanshu.gahlot86@gmail.com', 'Shalimar Restaurant', 'shalimar-restaurant.jpg', 37.775403, -122.409289, 'Jones St', '532', 94102, 'San Francisco', 'CA', 'Indian', '', 1, 110, '(415) 928-0333', '', '8AM: 9PM', '', 3, '2015-11-04 15:00:10', '01234');
+INSERT INTO business_business VALUES (6, 1, 'himanshu.gahlot86@gmail.com', 'Mela Tandoori Kitchen', 'mela-tandoori.jpg', 37.775403, -122.409289, 'Golden Gate Ave', '536', 94102, 'San Francisco', 'CA', 'Indian', '', 3, 120, '(415) 447-4041', '', '8AM: 1AM', '', 2, '2015-11-04 15:00:10', '23456');
+INSERT INTO business_business VALUES (7, 1, 'himanshu.gahlot86@gmail.com', 'Chutney', 'chutney.jpg', 37.775403, -122.409289, 'Jones St', '511', 94102, 'San Francisco', 'CA', 'Indian', '', 5, 130, '(415) 931-5541', '', '8AM: 9PM', '', 4, '2015-11-04 15:00:10', '01234');
+INSERT INTO business_business VALUES (8, 1, 'himanshu.gahlot86@gmail.com', 'Amber India', 'amber-india.jpg', 37.775403, -122.409289, 'Yerba Buena Ln', '25', 94102, 'San Francisco', 'CA', 'Indian', '', 4, 140, '(415) 777-0500', '', '8AM: 9PM', '', 1, '2015-11-04 15:00:10', '03456');
+INSERT INTO business_business VALUES (9, 1, 'himanshu.gahlot86@gmail.com', 'Lahor Karahi', 'lahore-karahi.jpg', 37.775403, -122.409289, 'OFarrell St', '612', 94102, 'San Francisco', 'CA', 'Indian', '', 2, 150, '(415) 567-8603', '', '8AM: 9PM', '', 1, '2015-11-04 15:00:10', '01234');
+INSERT INTO business_business VALUES (10, 1, 'himanshu.gahlot86@gmail.com', 'Red Chilli', 'red-chilli.jpg', 37.775403, -122.409289, 'Jones St', '522', 94102, 'San Francisco', 'CA', 'Indian', '', 1, 160, '(415) 931-3529', '', '8AM: 9PM', '', 2, '2015-11-04 15:00:10', '0123456');
+INSERT INTO business_business VALUES (11, 1, 'himanshu.gahlot86@gmail.com', 'Pakwan Restaurant', 'pakwan-restaurant.jpg', 37.775403, -122.409289, '16th St', '3180-82', 94102, 'San Francisco', 'CA', 'Indian', '', 5, 170, '(415) 255-2440', '', '8AM: 3PM', '', 5, '2015-11-04 15:00:10', '3456');
+INSERT INTO business_business VALUES (12, 1, 'himanshu.gahlot86@gmail.com', 'Tava India Kitchen', 'tava-india-kitchen.jpg', 37.775403, -122.409289, '2nd St', '163', 94102, 'San Francisco', 'CA', 'Indian', '', 4, 10, '(415) 543-8282', '', '8AM: 4PM', '', 4, '2015-11-04 15:00:10', '012456');
+INSERT INTO business_business VALUES (13, 1, 'himanshu.gahlot86@gmail.com', 'The Dosa Brothers', 'dosa-brothers.jpg', 37.775403, -122.409289, 'Market St', '598', 94102, 'San Francisco', 'CA', 'Indian', '', 3, 30, '(415) 378-0984', '', '8AM: 9PM', '', 3, '2015-11-04 15:00:10', '0123456');
+INSERT INTO business_business VALUES (14, 1, 'utkarsh.cmu@gmail.com', 'Brenda\'s French Soul Food', 'brendas-french-soul-food.jpg', 37.782895, -122.418962, 'Polk St', '652', 94102, 'San Francisco', 'CA', 'French', '', 4, 60, '(415) 345-8100', '', '8AM: 3PM', '', 2, '2015-12-07 06:45:30', '0123456');
 
 -- Bootstrap for business count
 INSERT INTO business_counter VALUES (1, '2015-11-08 15:00:10', 234);
